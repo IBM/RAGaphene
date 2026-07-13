@@ -1,0 +1,63 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+@use '@carbon/colors' as *;
+
+// Diff viewer legend colors — no direct Carbon semantic token exists for
+// inline text diff highlighting, so we define named variables here.
+$diff-delete-color: #ffcdcd;
+$diff-insert-color: #cdffcd;
+
+// Toolbar icon-only action button (Analyzer, Reviewer)
+@mixin toolbar-action {
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  color: var(--cds-background-inverse);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  svg {
+    height: 24px;
+    width: 24px;
+  }
+
+  span {
+    padding-left: $spacing-02;
+    font-size: 16px;
+  }
+}
+
+// Toolbar labelled button (Settings)
+@mixin toolbar-btn {
+  border: none;
+  cursor: pointer;
+  padding: $spacing-03;
+  background-color: transparent;
+  color: var(--cds-background-inverse);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background-color: var(--cds-background-hover);
+  }
+
+  span {
+    padding-left: $spacing-04;
+    font-size: 16px;
+  }
+}
+
+// Disabled state for toolbar buttons
+@mixin toolbar-disabled {
+  color: var(--cds-text-disabled);
+
+  &:hover {
+    background-color: transparent;
+  }
+}

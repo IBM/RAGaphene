@@ -1,0 +1,25 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+@use '@carbon/colors' as *;
+
+.container {
+  position: fixed;
+  left: 0;
+  top: $spacing-12;
+  display: flex;
+  flex-direction: column;
+  z-index: 3;
+  width: inherit;
+}
+
+.hint {
+  flex-grow: 1;
+}
+
+.hint :global(.cds--inline-notification) {
+  max-inline-size: unset;
+}

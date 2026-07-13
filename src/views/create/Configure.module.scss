@@ -1,0 +1,159 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+@use '@carbon/react/scss/utilities/convert' as *;
+@use '@carbon/colors' as *;
+@use '../../styles/index' as common;
+
+.page {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 5% 15%;
+  margin: 0 auto;
+  overflow-y: auto;
+  row-gap: $spacing-02;
+  transition: padding 500ms;
+  @include common.fade-in();
+}
+
+.title {
+  line-height: 40px;
+  font-weight: 300;
+}
+
+.modeSelectorGroup {
+  display: flex;
+  column-gap: $spacing-05;
+  margin-top: $spacing-09;
+  width: fit-content;
+}
+
+.modeTile {
+  width: rem(320px);
+  min-height: rem(140px);
+  border: 1px solid var(--cds-border-subtle-03) !important;
+  padding: rem(16px) !important;
+  text-decoration: none !important;
+  transition:
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.modeTile:hover {
+  background-color: var(--cds-skeleton-background) !important;
+}
+
+.modeTileSelected {
+  border-color: var(--cds-border-interactive) !important;
+  box-shadow: inset 0 0 0 2px var(--cds-border-interactive);
+}
+
+.modeTileContent {
+  display: flex;
+  column-gap: $spacing-04;
+  align-items: flex-start;
+}
+
+.modeTileIcon {
+  flex-shrink: 0;
+  margin-top: $spacing-01;
+  color: var(--cds-icon-primary);
+}
+
+.modeTileText {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-02;
+}
+
+.modeTileTitle {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+}
+
+.modeTileDescription {
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 16px;
+  color: var(--cds-text-secondary);
+}
+
+.modeTileTag {
+  margin-top: $spacing-02;
+  display: inline-flex;
+  align-items: center;
+}
+
+.modeContent {
+  display: flex;
+  flex-direction: column;
+  margin-top: $spacing-07;
+  padding-bottom: $spacing-09;
+}
+
+.retrieverConfigurations {
+  @include common.connector-configurations;
+}
+.retrieverSelectors {
+  @include common.connector-selectors-container;
+}
+.retrieverSelector {
+  @include common.connector-selector;
+}
+
+.retrieverSelectorDescription {
+  @include common.connector-selector-description;
+}
+
+.retrieverSelectorTags {
+  @include common.connector-selector-tags;
+}
+.retrieverSelectorTag {
+  @include common.connector-selector-tag;
+}
+
+.retrieverLoginTypeSelectors {
+  @include common.connector-login-type-selectors;
+}
+
+.generatorConfigurations {
+  @include common.connector-configurations;
+}
+.generatorSelectors {
+  @include common.connector-selectors-container;
+}
+.generatorSelectorsGrid {
+  @include common.connector-selectors-grid;
+}
+.generatorSelector {
+  @include common.connector-selector;
+}
+
+.generatorSelectorDescription {
+  @include common.connector-selector-description;
+}
+
+.generatorSelectorTags {
+  @include common.connector-selector-tags;
+}
+.generatorSelectorTag {
+  @include common.connector-selector-tag;
+}
+
+.generatorNotification {
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 300;
+}
+
+.navigationButtons {
+  margin-bottom: $spacing-09;
+  display: flex;
+  column-gap: $spacing-05;
+}

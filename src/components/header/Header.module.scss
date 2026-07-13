@@ -1,0 +1,30 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+@use '@carbon/colors' as *;
+
+.homeBtn {
+  width: $spacing-09;
+  height: $spacing-09;
+  padding: 0 $spacing-03;
+  color: inherit !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.homeBtn:hover {
+  background-color: var(--cds-background-hover);
+}
+
+.disabledActionBtn {
+  pointer-events: none;
+  background-color: transparent;
+}
+
+.disabledActionBtn svg {
+  fill: var(--cds-icon-disabled) !important;
+}

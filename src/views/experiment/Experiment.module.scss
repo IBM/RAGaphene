@@ -1,0 +1,134 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+@use '@carbon/colors' as *;
+@use '../../styles/index' as common;
+
+// --- Page shell ---
+
+.page {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  @include common.fade-in();
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 0 1%;
+}
+
+// --- Tutorial (opening page) ---
+
+.tutorialContainer {
+  place-self: center;
+  width: 60%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: $spacing-07;
+}
+
+.experimentTutorial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: $spacing-03;
+  text-align: center;
+}
+
+.experimentTutorial h2 {
+  font-size: 42px;
+  line-height: 46px;
+}
+
+.experimentTutorial p {
+  font-size: 18px;
+  line-height: 26px;
+  color: var(--cds-text-secondary);
+  max-width: 540px;
+}
+
+.evaluationCards {
+  display: flex;
+  column-gap: $spacing-05;
+  width: 100%;
+}
+
+.evaluationCard {
+  flex: 1;
+  background-color: var(--cds-layer-01);
+  padding: $spacing-05;
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-03;
+}
+
+.evaluationCardHeader {
+  display: flex;
+  align-items: center;
+  column-gap: $spacing-03;
+  color: var(--cds-text-primary);
+}
+
+.evaluationCardTitle {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 22px;
+}
+
+.evaluationCardQuestion {
+  font-size: 15px;
+  line-height: 22px;
+  color: var(--cds-text-primary);
+}
+
+.evaluationCardDetail {
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--cds-text-secondary);
+}
+
+.beforeYouStart {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-03;
+}
+
+.beforeYouStartTitle {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+  color: var(--cds-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.beforeYouStartList {
+  margin: 0;
+  padding-left: $spacing-05;
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-02;
+
+  li {
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--cds-text-secondary);
+  }
+}
+
+.navigationButtons {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}

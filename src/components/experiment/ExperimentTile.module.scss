@@ -1,0 +1,58 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+@use '@carbon/colors' as *;
+
+.container {
+  max-height: 9rem;
+  margin-bottom: $spacing-05;
+}
+
+.heading {
+  display: flex;
+  column-gap: $spacing-03;
+  align-items: center;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+}
+
+.title {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.block {
+  display: flex;
+  margin-top: $spacing-03;
+}
+
+.information {
+  display: flex;
+  flex: 1 0 70%;
+  min-width: 40%;
+  column-gap: $spacing-12;
+  align-items: baseline;
+}
+
+.artifactEvaluations {
+  flex-direction: column;
+}
+
+.artifactTitle {
+  font-size: 14px;
+  line-height: 16px;
+  color: var(--cds-text-helper);
+}
+
+.artifactValue {
+  font-size: 14px;
+  line-height: 16px;
+  margin-top: $spacing-02;
+}

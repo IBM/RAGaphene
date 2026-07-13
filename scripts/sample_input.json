@@ -1,0 +1,28 @@
+{
+  "metrics": ["f1", "em", "bleu", "rouge-l"],
+  "pipelines": ["mixtral", "llama"],
+  "tasks": [
+    {
+      "task_id": "task 1",
+      "mixtral": {
+        "predictions": ["A cat chased a dog."],
+        "targets": ["A dog chased a cat."]
+      },
+      "llama": {
+        "predictions": ["A cat chased a tiny mouse."],
+        "targets": ["A dog chased a cat."]
+      }
+    },
+    {
+      "task_id": "task 2",
+      "mixtral": {
+        "predictions": ["A tree is always bigger than a shrub."],
+        "targets": ["A tree could be smaller than a shrub."]
+      },
+      "llama": {
+        "predictions": ["A shrub is always smaller than a tree."],
+        "targets": ["A tree could be smaller than a shrub."]
+      }
+    }
+  ]
+}

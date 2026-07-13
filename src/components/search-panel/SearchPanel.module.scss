@@ -1,0 +1,65 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+@use '@carbon/colors' as *;
+
+.container {
+  margin: $spacing-05;
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-05;
+}
+
+.queryBox {
+  flex-grow: 0;
+}
+
+.queryBox textarea {
+  border: 1px solid var(--cds-border-inverse);
+  font-size: 14px;
+  font-family: 'IBM Plex Sans';
+  font-weight: 300;
+}
+
+.divider {
+  border-bottom: 1px solid var(--cds-border-strong);
+}
+
+.loadingContainer {
+  align-self: center;
+  width: 10%;
+  height: 10%;
+}
+
+.hitContainer {
+  display: flex;
+  align-items: center;
+  column-gap: $spacing-03;
+}
+
+.hit {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-03;
+}
+
+.hitText {
+  padding: $spacing-03;
+  height: 250px;
+  overflow: scroll;
+  background-color: var(--cds-background);
+  display: flex;
+  flex-direction: column;
+}
+
+.hitText pre {
+  padding: 1%;
+  background-color: var(--cds-layer-01);
+}
+
+.hitsNavigation {
+  align-self: center;
+}

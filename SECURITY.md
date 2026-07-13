@@ -2,16 +2,18 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
-
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+RAGaphene is in active development. Security updates are applied to the latest
+release on the `main` branch. Older versions are not maintained.
 
 ## Reporting a Vulnerability
 
-To report a security issue, please email $VMTalias with a description of the issue, the steps you took to create the issue, affected versions, and if known, mitigations for the issue. Our vulnerability management team will acknowledge receiving your email within 3 working days. This project follows a 90 day disclosure timeline.
+If you discover a security vulnerability, please report it privately rather than
+opening a public issue.
+
+Use GitHub's [private vulnerability reporting](https://github.com/IBM/RAGaphene/security/advisories/new)
+to disclose the issue. Include a description of the vulnerability, the steps to
+reproduce it, the affected versions, and any known mitigations.
+
+We will acknowledge your report within a reasonable time frame and keep you
+informed as we work on a fix. Please do not disclose the issue publicly until a
+fix has been released.

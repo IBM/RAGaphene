@@ -1,0 +1,172 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+@use '@carbon/colors' as *;
+
+.page {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+.header {
+  border-bottom: solid 1px var(--cds-border-strong);
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  flex-grow: 1;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+.navigationButtons {
+  display: flex;
+  column-gap: $spacing-05;
+  margin: $spacing-03;
+}
+
+.leftPanel {
+  width: 25%;
+  border-right: solid 1px var(--cds-border-strong);
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-04;
+}
+
+.leftPanel .spacer {
+  margin: auto $spacing-05 20% 0;
+}
+
+.addPipelinesWarningContainer {
+  display: flex;
+  font-size: 14px;
+  line-height: 16px;
+  align-items: center;
+  color: var(--cds-support-warning);
+  column-gap: $spacing-03;
+}
+
+.pipelineTile {
+  margin: $spacing-03;
+  padding: $spacing-03;
+  border: solid 1px var(--cds-border-strong);
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-03;
+}
+
+.active {
+  background-color: var(--cds-background-active);
+  border: solid 1px var(--cds-border-inverse);
+}
+
+.pipelineHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.pipelineHeader h4 {
+  flex-grow: 1;
+}
+
+.pipelineHeader button {
+  margin-left: auto;
+}
+
+.pipelineDescription {
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--cds-text-helper);
+}
+
+.pipelineComponents {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.pipelineComponent {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-03;
+}
+
+.pipelineComponentTitle {
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--cds-text-helper);
+}
+
+.pipelineComponentValue {
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--cds-text-primary);
+  font-weight: 500;
+}
+
+.pipelineComponentDetail {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--cds-text-helper);
+}
+
+.mainPanel {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: $spacing-03 $spacing-05;
+  overflow: auto;
+}
+
+.hintContainer {
+  align-self: center;
+  margin-top: 25%;
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-03;
+  align-items: center;
+}
+
+.hintContainerTitle {
+  font-size: 32px;
+  line-height: 36px;
+  color: var(--cds-text-helper);
+}
+
+.hintContainerSubTitle {
+  font-size: 20px;
+  line-height: 24px;
+  color: var(--cds-text-helper);
+}
+
+.nameEditor {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-02;
+}
+
+.nameEditorWarningContainer {
+  display: flex;
+  font-size: 14px;
+  line-height: 16px;
+  align-items: center;
+  color: var(--cds-support-warning);
+  column-gap: $spacing-02;
+}

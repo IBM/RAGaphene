@@ -2,12 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
 ## [Unreleased]
 
-## [0.0.1] - 2019-02-15
-
 ### Added
-- Added a changelog
+- Initial public release of RAGaphene: a workbench for building, evaluating, and
+  analyzing Retrieval-Augmented Generation (RAG) systems across a Data → Evaluate
+  → Analyze lifecycle.
 
-[unreleased]: https://github.com/ibm/repo-template/compare/v0.0.1...HEAD
-[0.0.1]: https://github.com/ibm/repo-template/releases/tag/v0.0.1
+[unreleased]: https://github.com/IBM/RAGaphene/commits/main

@@ -1,0 +1,50 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+
+.tableContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+// Fixed-height scroll area — only the DataTable scrolls.
+// max-height rather than height so the container shrinks when there are few rows.
+// Pagination sits outside this wrapper so it is always visible.
+.tableScroll {
+  max-height: 580px;
+  overflow-y: auto;
+}
+
+.table {
+  td,
+  tr {
+    border-top: 1px solid var(--cds-layer);
+    border-bottom: 1px solid var(--cds-border-subtle);
+  }
+}
+
+.tableCell {
+  display: flex;
+  column-gap: $spacing-03;
+  align-items: center;
+}
+
+.taskCell {
+  max-width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.toolbar {
+  // Push toolbar content to the right so the search field aligns with the table edge.
+  justify-content: flex-end;
+}
+
+.toolbarSearch {
+  // Prevent the search input from collapsing to icon-only on narrow containers.
+  min-width: 200px;
+}

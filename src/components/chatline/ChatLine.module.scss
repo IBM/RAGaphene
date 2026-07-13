@@ -1,0 +1,269 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+@use '@carbon/colors' as *;
+@use '../../styles/index' as common;
+
+.line {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  align-items: flex-end;
+  margin-bottom: 1.25rem;
+  gap: $spacing-06;
+}
+
+.botLine {
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+.latestResponse {
+  margin-bottom: 3rem;
+}
+
+.baloon {
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  border-bottom-right-radius: 0;
+  background: var(--cds-layer-01);
+  width: 80%;
+}
+
+.botBaloon {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 1rem;
+}
+
+.message {
+  font-size: 16px;
+  line-height: 22px;
+  margin: $spacing-04 $spacing-05 0;
+  min-width: 120px;
+}
+
+.extraMargin {
+  margin-bottom: $spacing-04;
+}
+
+.editor {
+  margin: $spacing-03 $spacing-05;
+}
+
+.editor textarea {
+  border: 1px solid var(--cds-border-inverse);
+  font-size: 16px;
+  font-family: 'IBM Plex Sans';
+  font-weight: 300;
+}
+
+.editorWarningContainer {
+  margin: 0 $spacing-05;
+  font-size: 14px;
+  line-height: 16px;
+  display: flex;
+  column-gap: $spacing-02;
+  color: var(--cds-support-warning);
+}
+
+.messageStatus {
+  color: $blue-50;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  margin: 0 $spacing-05;
+}
+
+.messageWarning {
+  margin: $spacing-02 $spacing-05 0;
+  display: flex;
+  column-gap: $spacing-02;
+  font-size: 12px !important;
+  line-height: 16px;
+  color: var(--cds-support-warning);
+}
+
+.viewDocumentsButton {
+  border: 1px solid var(--cds-background-inverse);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  margin: -10px auto -16px;
+  background: var(--cds-background);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.viewDocumentsIcon {
+  color: var(--cds-background-inverse);
+}
+
+.toolbar {
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 $spacing-05;
+}
+
+.toolbarButtons {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.btnActive {
+  background-color: var(--cds-background-selected);
+}
+
+.previewBox {
+  background-color: var(--cds-layer-selected-01) !important;
+  color: var(--cds-text-primary);
+}
+
+.edit {
+  border-top: 1px dashed var(--cds-border-strong-01);
+  padding-top: $spacing-03;
+  font-size: 16px;
+  line-height: 20px;
+  margin: $spacing-04 $spacing-05 0;
+  min-width: 120px;
+}
+
+.diff {
+  color: var(--cds-text-helper);
+}
+
+.diffLegends {
+  margin: $spacing-02 $spacing-05;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: var(--cds-text-helper);
+  column-gap: $spacing-03;
+}
+
+.diffLegend {
+  display: flex;
+  column-gap: $spacing-02;
+}
+
+.legendDelete {
+  color: common.$diff-delete-color;
+}
+
+.legendInsert {
+  color: common.$diff-insert-color;
+}
+
+.superscript {
+  vertical-align: super;
+  font-size: 12px;
+  margin-left: $spacing-01;
+}
+
+.citations {
+  margin: 0 $spacing-05;
+}
+
+.feedbackContainer {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 $spacing-05 $spacing-03;
+  align-self: flex-start;
+  row-gap: $spacing-03;
+}
+
+.feedbackMetricContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.feedbackMetricDescription {
+  display: flex;
+  column-gap: $spacing-02;
+}
+
+.feedbackMetricValues {
+  margin-left: auto;
+  align-self: flex-end;
+}
+
+.enrichmentsViewer {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-01;
+  margin: 0 $spacing-05 $spacing-03;
+}
+
+.enrichmentsTitle {
+  font-size: 12px;
+  line-height: 14px;
+  color: var(--cds-text-helper);
+}
+
+.enrichments {
+  display: flex;
+  column-gap: $spacing-03;
+}
+
+.enrichmentSpecification {
+  display: flex;
+  align-items: flex-start;
+  column-gap: $spacing-03;
+  margin: 0 $spacing-05 $spacing-03;
+
+  & span {
+    padding: $spacing-05 $spacing-03;
+  }
+}
+
+// ===================================================================================
+//                               COVERAGE METER
+// ===================================================================================
+
+.coverageMeter {
+  display: inline-flex;
+  align-items: center;
+  column-gap: $spacing-02;
+  padding: $spacing-01 $spacing-02;
+  cursor: default;
+  @include common.fade-in(150ms);
+}
+
+.coveragePie {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: conic-gradient(
+    #f1c21b calc(var(--pct) * 1%),
+    var(--cds-border-subtle-01) 0
+  );
+  border: 1px solid var(--cds-border-strong-01);
+  flex-shrink: 0;
+}
+
+.coverageMeterLabel {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 16px;
+  color: var(--cds-text-secondary);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.coveragePct {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--cds-text-primary);
+  user-select: none;
+}

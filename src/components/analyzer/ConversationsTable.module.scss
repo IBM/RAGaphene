@@ -1,0 +1,22 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+
+.table {
+  overflow-y: auto;
+
+  td,
+  tr {
+    border-top: 1px solid var(--cds-layer);
+    border-bottom: 1px solid var(--cds-border-subtle);
+  }
+}
+
+.tableCell {
+  display: flex;
+  column-gap: $spacing-03;
+  align-items: center;
+}

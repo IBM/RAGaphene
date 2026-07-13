@@ -1,0 +1,70 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+@use '@carbon/colors' as *;
+
+.alternativesContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-02;
+  align-items: center;
+  border-top: 1px solid var(--cds-border-strong);
+}
+
+.alternativesSelector {
+  display: flex;
+  column-gap: $spacing-02;
+  align-items: center;
+}
+
+.alternativeContainer {
+  font-size: 16px;
+  line-height: 22px;
+  min-width: 98%;
+  margin: 0 $spacing-05 $spacing-04;
+  padding: $spacing-03;
+  background-color: var(--cds-background);
+  min-height: 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.alternativeToolbar {
+  margin-left: auto;
+  align-self: flex-end;
+}
+
+.alternativeText {
+  margin-bottom: $spacing-03;
+}
+
+.center {
+  align-self: center;
+}
+
+.addAlternativecontainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-02;
+}
+
+.caption {
+  color: var(--cds-text-helper);
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.editor textarea {
+  border: 1px solid var(--cds-border-inverse);
+  font-size: 16px;
+  font-family: 'IBM Plex Sans';
+  font-weight: 300;
+}
+
+.disabled {
+  color: var(--cds-text-helper);
+  margin-top: $spacing-02;
+}

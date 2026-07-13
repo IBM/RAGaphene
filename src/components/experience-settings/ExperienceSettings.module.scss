@@ -1,0 +1,33 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+@use '@carbon/colors' as *;
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+// Hosts the Renew icon button; pushes it to the right edge above the tabs.
+.refreshRow {
+  display: flex;
+  justify-content: flex-end;
+  padding: $spacing-02 $spacing-03;
+}
+
+.infoContainer {
+  margin: $spacing-12 $spacing-05;
+  display: flex;
+  column-gap: $spacing-05;
+  align-items: center;
+}
+
+.infoText {
+  font-size: 18px;
+  line-height: 22px;
+}

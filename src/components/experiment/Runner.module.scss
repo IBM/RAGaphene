@@ -1,0 +1,74 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+@use '@carbon/colors' as *;
+@use '@carbon/motion' as *;
+
+.header {
+  border-bottom: solid 1px var(--cds-border-strong);
+  display: flex;
+  align-items: center;
+  margin-bottom: $spacing-03;
+}
+
+.navigationButtons {
+  display: flex;
+  column-gap: $spacing-05;
+  margin: $spacing-04 0;
+}
+
+.title {
+  flex-grow: 1;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 300;
+}
+
+@keyframes sliding {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@mixin background-gradient-animation {
+  animation-duration: 2 * $duration-slow-02;
+  animation-iteration-count: infinite;
+  animation-name: sliding;
+  animation-timing-function: motion(standard, expressive);
+  background: linear-gradient(90deg, $purple-50, $blue-40, $green-40);
+  background-size: 200% 100%;
+}
+
+.statusBanner {
+  width: 100%;
+  display: flex;
+  column-gap: $spacing-04;
+  align-items: center;
+  height: 0;
+  padding: 0 $spacing-03;
+  margin: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+// Banner has been shown at least once — fix its size in place so it never collapses.
+.visible {
+  visibility: visible;
+  height: $spacing-09;
+  margin: $spacing-03 0;
+  background: var(--cds-layer-accent);
+}
+
+// Animated gradient overlaid only while the run is active.
+.animated {
+  @include background-gradient-animation;
+}

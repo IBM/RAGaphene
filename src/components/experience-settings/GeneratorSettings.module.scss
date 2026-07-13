@@ -1,0 +1,79 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+@use '@carbon/colors' as *;
+
+// -----------------x OVERRIDE x-----------------
+// Carbon design (accordion, list)
+// ----------------------------------------------
+.accordionContent :global(.cds--accordion__content) {
+  padding-right: 1%;
+}
+
+// -------------------x END x-------------------
+
+.title {
+  margin: $spacing-03 0;
+}
+
+.chatCompletionSettings {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin: 0 $spacing-05 $spacing-05;
+}
+
+.tokenLimitSelectors {
+  margin: $spacing-05 0;
+  display: flex;
+  column-gap: $spacing-05;
+}
+
+.decodingParameters {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-03;
+}
+
+.sampleDecodingParameters {
+  display: none;
+}
+
+.sampleDecodingParameters.visible {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-03;
+  animation: fade-in 0.5s;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.stopSequences {
+  display: flex;
+  align-items: flex-end;
+}
+
+.stopSequenceTags {
+  display: flex;
+}
+
+.stopSequenceTag {
+  width: 30%;
+}
+
+.promptParameters {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-03;
+}

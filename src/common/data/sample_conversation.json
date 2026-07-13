@@ -1,0 +1,46 @@
+[
+  {
+    "messages": [
+      {
+        "speaker": "user",
+        "text": "first user message",
+        "timestamp": 1704085200
+      },
+      {
+        "speaker": "agent",
+        "text": "first agent message",
+        "timestamp": 1704085200,
+        "contexts": [
+          {
+            "document_id": "document_1",
+            "text": "This is a first sample document."
+          },
+          {
+            "document_id": "document_2",
+            "text": "This is a second sample document."
+          }
+        ]
+      },
+      {
+        "speaker": "user",
+        "text": "second user message",
+        "timestamp": 1704085200
+      },
+      {
+        "speaker": "agent",
+        "text": "second agent message",
+        "timestamp": 1704085200,
+        "contexts": [
+          {
+            "document_id": "document_1",
+            "text": "This is a first sample document."
+          },
+          {
+            "document_id": "document_3",
+            "text": "This is a third sample document."
+          }
+        ]
+      }
+    ]
+  }
+]

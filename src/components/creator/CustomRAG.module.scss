@@ -1,0 +1,49 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+@use '@carbon/colors' as *;
+
+.toolbar {
+  width: 100%;
+  min-height: $spacing-09;
+  padding-right: $spacing-06;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 24px;
+}
+
+.toolbarAction {
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  color: var(--cds-background-inverse);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toolbarAction svg {
+  height: 24px;
+  width: 24px;
+}
+
+.toolbarAction span {
+  padding-left: $spacing-02;
+  font-size: 16px;
+}
+
+.disabled {
+  color: var(--cds-text-disabled);
+}
+
+.loadingContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 7rem);
+}

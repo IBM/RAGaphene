@@ -1,0 +1,22 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-04;
+}
+
+.previewBox {
+  height: 75%;
+  min-width: 1200px;
+  background-color: var(--cds-layer-selected-01) !important;
+}
+
+.heading {
+  padding-bottom: $spacing-03;
+}

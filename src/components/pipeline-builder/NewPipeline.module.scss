@@ -1,0 +1,170 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+@use '@carbon/colors' as *;
+
+.progressTracker {
+  height: $spacing-10;
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+.header {
+  border-bottom: solid 1px var(--cds-border-strong);
+  display: flex;
+  align-items: center;
+}
+
+.navigationButtons {
+  display: flex;
+  column-gap: $spacing-05;
+}
+
+.modalContainer {
+  display: flex;
+  align-items: center;
+  column-gap: $spacing-03;
+}
+
+.stepTracker {
+  width: 10%;
+}
+
+.step {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-04;
+}
+
+.step :global(.cds--form-item) {
+  max-width: 50%;
+}
+
+.warningContainer {
+  display: flex;
+  column-gap: $spacing-02;
+  align-items: center;
+  color: var(--cds-support-warning);
+}
+
+// Hard-block notification shown after a successful connect that found dataset
+// collections absent from the retriever.
+.collectionError {
+  margin-top: $spacing-04;
+}
+
+// Back + Continue button row on the Configure step inside each configurator.
+.configuratorNav {
+  display: flex;
+  column-gap: $spacing-03;
+  margin-top: $spacing-03;
+}
+
+.retrieverSelectors {
+  display: flex;
+  column-gap: $spacing-03;
+}
+
+.retrieverSelectors > div {
+  width: 300px;
+}
+
+.retrieverSelectors > div > label {
+  height: 175px;
+  background-color: var(--cds-layer-selected-01) !important;
+}
+
+.retrieverSelector {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-02;
+}
+
+.retrieverSelectorDescription {
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 300;
+}
+
+.retrieverSelectorTags {
+  display: flex;
+  column-gap: $spacing-02;
+  margin: $spacing-03 0;
+}
+
+.retrieverSelectorTag {
+  width: 60%;
+}
+
+.retrieverLoginTypeSelectors {
+  display: flex;
+  column-gap: $spacing-03;
+}
+
+.retrieverLoginTypeSelectors > div > label {
+  background-color: var(--cds-layer-selected-01) !important;
+}
+
+.generatorSelectors {
+  display: flex;
+  column-gap: $spacing-03;
+}
+
+.generatorSelectors > div {
+  width: 300px;
+}
+
+.generatorSelectors > div > label {
+  height: 175px;
+  background-color: var(--cds-layer-selected-01) !important;
+}
+
+.generatorSelectorsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacing-05;
+}
+
+.generatorSelectorsGrid > div {
+  width: auto;
+}
+
+.generatorSelectorsGrid > div > label {
+  height: 175px;
+}
+
+.generatorSelector {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-02;
+}
+
+.generatorSelectorDescription {
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 300;
+}
+
+.generatorSelectorTags {
+  display: flex;
+  column-gap: $spacing-02;
+  margin: $spacing-03 0;
+}
+
+.generatorSelectorTag {
+  width: 60%;
+}
+
+.generatorNotification {
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 300;
+}

@@ -1,0 +1,120 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+@use '@carbon/colors' as *;
+
+.comments {
+  max-height: 75%;
+  overflow-y: auto;
+}
+
+.comment {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-04;
+  border-bottom: solid 1px var(--cds-border-strong-01);
+  background-color: var(--cds-layer-01);
+  padding: $spacing-04;
+}
+
+.commentHeader {
+  display: flex;
+  font-size: 14px;
+  font-weight: 300;
+  justify-content: space-between;
+}
+
+.commentHeaderAuthor {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-02;
+  align-items: center;
+}
+
+.commentHeaderProvenance {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.commentTag {
+  max-width: 8rem;
+}
+
+.commentHeaderTimestamp {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-02;
+  align-items: center;
+}
+
+.label {
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1rem;
+  letter-spacing: 0.32px;
+}
+
+.commentBody {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-02;
+}
+
+.commentBodyHeader {
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.commentProvenance {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-02;
+}
+
+.commentProvenanceText {
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 14px;
+  letter-spacing: 0.32px;
+}
+
+.commentActions {
+  display: flex;
+  justify-content: space-around;
+}
+
+.commentBtn {
+  display: flex;
+  column-gap: $spacing-03;
+  align-items: flex-end;
+}
+
+.editActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-03;
+  margin-top: $spacing-03;
+}
+
+.infoContainer {
+  display: flex;
+  column-gap: $spacing-03;
+}
+
+.infoList {
+  margin: 0;
+  padding-left: $spacing-05;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1rem;
+  letter-spacing: 0.32px;
+  color: var(--cds-text-helper);
+
+  li + li {
+    margin-top: $spacing-02;
+  }
+}

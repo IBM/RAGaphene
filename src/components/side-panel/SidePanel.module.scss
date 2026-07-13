@@ -1,0 +1,28 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+@use '@carbon/colors' as *;
+
+.panel {
+  width: 100%;
+  height: 100%;
+  background-color: var(--cds-layer-01);
+  display: flex;
+  flex-direction: column;
+}
+
+.navigation {
+  border-bottom: 1px solid var(--cds-border-strong);
+  display: flex;
+}
+
+.navigationItem {
+  display: flex;
+}
+
+.selected {
+  background-color: var(--cds-background-selected);
+}

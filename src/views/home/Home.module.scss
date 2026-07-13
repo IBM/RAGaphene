@@ -1,0 +1,100 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/styles/scss/spacing' as *;
+@use '@carbon/styles/scss/utilities/convert' as *;
+@use '../../styles/index' as common;
+
+.root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  @include common.fade-in();
+}
+
+.leadspaceWrapper {
+  margin-left: 5%;
+  width: 80%;
+}
+
+.leadspace {
+  margin-top: 5%;
+  margin-bottom: $spacing-07;
+
+  > p {
+    font-size: rem(16px);
+    line-height: 1.5;
+    font-weight: 400;
+    letter-spacing: 0;
+
+    a:global(.cds--link) {
+      font-size: inherit;
+      font-weight: inherit;
+      line-height: inherit;
+      letter-spacing: inherit;
+      text-decoration: none;
+    }
+  }
+}
+
+.heading {
+  font-size: rem(42px);
+  line-height: rem(50px);
+  font-weight: 400;
+  letter-spacing: 0;
+  margin-bottom: $spacing-07;
+}
+
+.stages {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 0 5%;
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-05;
+  padding: 0 $spacing-03;
+  border-right: 1px dashed var(--cds-border-strong);
+}
+
+.stage:last-of-type {
+  border-right: none;
+}
+
+.stageInformation {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  column-gap: $spacing-03;
+}
+
+.stageTitle {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.stageDescription {
+  font-size: 16px;
+  line-height: 20px;
+  color: var(--cds-text-helper);
+}
+
+.annoucements {
+  margin-left: 5%;
+}
+
+.footer {
+  margin: auto 0 1%;
+  padding: 1% 0;
+  align-self: center;
+  justify-content: flex-end;
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 300;
+  color: var(--cds-text-helper);
+}

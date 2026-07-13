@@ -1,0 +1,105 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+@use '@carbon/colors' as *;
+@use '../../styles/index' as common;
+
+.page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  @include common.fade-in();
+}
+
+.commentsPanel {
+  width: 25%;
+  height: 100%;
+  border-right: solid 1px var(--cds-border-inverse);
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  row-gap: $spacing-05;
+  padding: 0 $spacing-05;
+}
+
+.commentsPanel > h4 {
+  align-self: center;
+  margin: $spacing-04;
+  border-bottom: solid 1px var(--cds-border-strong-01);
+}
+
+.container {
+  width: inherit;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.resize {
+  width: 75%;
+}
+
+.toolbar {
+  width: 100%;
+  min-height: $spacing-09;
+  padding-right: $spacing-06;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 24px;
+  border-bottom: 1px solid var(--cds-border-strong-01);
+}
+
+.toolbar > span {
+  margin-left: $spacing-03;
+  margin-right: auto;
+  color: var(--cds-text-helper);
+}
+
+.progressTracker {
+  width: 40%;
+  margin: 0 auto;
+}
+
+.toolbarAction {
+  @include common.toolbar-action();
+}
+
+.disabled {
+  color: var(--cds-text-disabled);
+}
+
+.conversationSelector {
+  align-self: center;
+  display: flex;
+  align-items: center;
+}
+
+.conversationContainer {
+  padding: 0 5%;
+  border-bottom: 1px solid var(--cds-background-inverse);
+  margin-top: $spacing-06;
+  height: 80%;
+  overflow-y: auto;
+}
+
+.feedbackContainer {
+  margin: 2% 0;
+  align-self: center;
+  display: flex;
+  column-gap: $spacing-12;
+}
+
+.anchor {
+  overflow-anchor: auto;
+  height: 1px;
+}
+
+.floatingAddBtn {
+  position: fixed;
+  z-index: 9000;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}

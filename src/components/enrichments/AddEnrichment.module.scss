@@ -1,0 +1,35 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+@use '@carbon/colors' as *;
+
+.enrichmentsViewer {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-01;
+  margin: 0 $spacing-05 $spacing-03;
+}
+
+.enrichmentsTitle {
+  font-size: 12px;
+  line-height: 14px;
+  color: var(--cds-text-helper);
+}
+
+.enrichments {
+  display: flex;
+  column-gap: $spacing-03;
+}
+
+.enrichmentSpecification {
+  display: flex;
+  align-items: flex-start;
+  column-gap: $spacing-03;
+
+  & span {
+    padding: $spacing-05 $spacing-03;
+  }
+}

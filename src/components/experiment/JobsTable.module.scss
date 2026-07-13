@@ -1,0 +1,59 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+
+.tableContainer {
+  padding: $spacing-03 0;
+}
+
+.table {
+  overflow-y: auto;
+
+  td,
+  tr {
+    border-top: 1px solid var(--cds-layer);
+    border-bottom: 1px solid var(--cds-border-subtle);
+  }
+}
+
+.toolbar {
+  min-height: 3rem;
+}
+
+.taskCell {
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.tableCell {
+  display: flex;
+  column-gap: $spacing-03;
+  align-items: center;
+}
+
+.prediction {
+  margin: $spacing-03 0;
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-05;
+}
+
+.predictionArtifact {
+  display: flex;
+  column-gap: $spacing-03;
+}
+
+.durationDefinition {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-02;
+}
+
+.durationDefinitionItem {
+  display: flex;
+  column-gap: $spacing-03;
+  align-items: center;
+}

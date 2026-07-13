@@ -1,0 +1,18 @@
+{
+  "retrievers": {
+    "ElasticSearch": {
+      "endpoint": "https://my-elastic.example.com",
+      "username": "my-user",
+      "password": "my-pass"
+    }
+  },
+  "generators": {
+    "WatsonX.AI": {
+      "api_key": "my-key",
+      "project_id": "my-project"
+    },
+    "OpenAI": {
+      "api_key": "sk-..."
+    }
+  }
+}

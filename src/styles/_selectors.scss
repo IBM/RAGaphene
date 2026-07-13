@@ -1,0 +1,78 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+
+@mixin connector-configurations {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-03;
+  padding: 0 0 $spacing-05 0;
+
+  :global(.cds--form-item) {
+    max-width: 50%;
+  }
+}
+
+@mixin connector-selectors-container {
+  display: flex;
+  column-gap: $spacing-03;
+
+  > div {
+    width: 300px;
+
+    > label {
+      height: 175px;
+      background-color: var(--cds-layer-selected-01) !important;
+    }
+  }
+}
+
+// Applied in addition to connector-selectors-container when count > 4.
+// Switches to a 4-column grid; tiles stretch to fill their column.
+@mixin connector-selectors-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacing-05;
+
+  > div {
+    width: auto;
+
+    > label {
+      height: 175px;
+    }
+  }
+}
+
+@mixin connector-selector {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-02;
+}
+
+@mixin connector-selector-description {
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 300;
+}
+
+@mixin connector-selector-tags {
+  display: flex;
+  column-gap: $spacing-02;
+  margin: $spacing-03 0;
+}
+
+@mixin connector-selector-tag {
+  width: 60%;
+}
+
+@mixin connector-login-type-selectors {
+  display: flex;
+  column-gap: $spacing-03;
+
+  > div > label {
+    background-color: var(--cds-layer-selected-01) !important;
+  }
+}

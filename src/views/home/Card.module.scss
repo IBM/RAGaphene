@@ -1,0 +1,76 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/styles/scss/colors' as *;
+@use '@carbon/styles/scss/spacing' as *;
+@use '@carbon/styles/scss/utilities/convert' as *;
+@use '@carbon/styles/scss/type' as *;
+
+.root {
+  padding: rem(16px);
+  position: relative;
+  border: 1px solid var(--cds-border-subtle-03);
+  min-height: rem(230px);
+  display: flex;
+  flex-direction: column-reverse;
+
+  &:hover {
+    background-color: var(--cds-skeleton-background);
+  }
+}
+
+.body {
+  flex: 1 1 auto;
+  padding-right: 10%;
+
+  > * {
+    margin-bottom: $spacing-03;
+  }
+}
+
+.heading {
+  @include type-style('body-compact-02');
+}
+
+.heading > span {
+  margin-left: $spacing-03;
+}
+
+.text {
+  @include type-style('body-compact-01');
+}
+
+.link {
+  font-size: rem(14px);
+  font-weight: 500;
+  line-height: rem(24px);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: auto;
+    background-color: transparent;
+  }
+
+  &:hover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: $gray-10;
+    z-index: -1;
+  }
+
+  > :global(.cds--link__icon) > svg {
+    width: rem(24px);
+    height: rem(24px);
+  }
+}
+
+.link:hover + .body > .content {
+  :global(.cds--text-input) {
+    background-color: white;
+  }
+}

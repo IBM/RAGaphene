@@ -1,0 +1,150 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+@use '@carbon/colors' as *;
+@use '../../styles/index' as common;
+
+.page {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: $spacing-09 15%;
+  margin: 0 auto;
+  row-gap: $spacing-06;
+  overflow-y: auto;
+  @include common.fade-in();
+}
+
+.title {
+  margin-top: 5%;
+  font-size: 36px;
+  line-height: 40px;
+  font-weight: 300;
+  margin-bottom: $spacing-06;
+}
+
+.progressTracker {
+  margin-top: $spacing-05;
+  height: $spacing-12;
+}
+
+.integrationSelectors {
+  display: flex;
+  column-gap: $spacing-06;
+}
+
+.integrationSelectors > div {
+  width: 400px;
+}
+
+.integrationSelectors > div > label {
+  height: 250px;
+  background-color: var(--cds-layer-selected-01) !important;
+}
+
+.integrationSelector {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-02;
+  height: 100%;
+}
+
+.integrationSelectorDescription {
+  margin-top: $spacing-03;
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 300;
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-02;
+}
+
+.integrationSelectorDescription ul {
+  margin-top: $spacing-05;
+}
+
+.integrationSelectorDescription li {
+  display: flex;
+  align-items: center;
+}
+
+.integrationSelectorTags {
+  display: flex;
+  column-gap: $spacing-02;
+  margin-top: auto;
+}
+
+.integrationSelectorTag {
+  width: 60%;
+}
+
+// padding: $spacing-05 0 overrides the mixin's default padding: 0 0 $spacing-05 0
+.retrieverConfigurations {
+  @include common.connector-configurations;
+  padding: $spacing-05 0;
+}
+
+.retrieverSelectors {
+  @include common.connector-selectors-container;
+}
+.retrieverSelector {
+  @include common.connector-selector;
+}
+
+.retrieverSelectorDescription {
+  @include common.connector-selector-description;
+}
+
+.retrieverSelectorTags {
+  @include common.connector-selector-tags;
+}
+.retrieverSelectorTag {
+  @include common.connector-selector-tag;
+}
+
+.retrieverLoginTypeSelectors {
+  @include common.connector-login-type-selectors;
+}
+
+// padding: $spacing-05 0 overrides the mixin's default padding: 0 0 $spacing-05 0
+.generatorConfigurations {
+  @include common.connector-configurations;
+  padding: $spacing-05 0;
+}
+
+.generatorSelectors {
+  @include common.connector-selectors-container;
+}
+.generatorSelectorsGrid {
+  @include common.connector-selectors-grid;
+}
+.generatorSelector {
+  @include common.connector-selector;
+}
+
+.generatorSelectorDescription {
+  @include common.connector-selector-description;
+}
+
+.generatorSelectorTags {
+  @include common.connector-selector-tags;
+}
+.generatorSelectorTag {
+  @include common.connector-selector-tag;
+}
+
+.generatorNotification {
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 300;
+}
+
+.navigationButtons {
+  margin-bottom: $spacing-09;
+  display: flex;
+  column-gap: $spacing-05;
+}

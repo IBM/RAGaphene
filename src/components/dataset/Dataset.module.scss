@@ -1,0 +1,372 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+@use '@carbon/react/scss/breakpoint' as *;
+@use '@carbon/colors' as *;
+
+// --- Page shell ---
+
+.page {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.header {
+  border-bottom: solid 1px var(--cds-border-strong);
+  display: flex;
+  align-items: center;
+  padding: $spacing-04 0;
+  flex-shrink: 0;
+}
+
+.title {
+  flex-grow: 1;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+.navigationButtons {
+  display: flex;
+  column-gap: $spacing-03;
+}
+
+// --- Upload state ---
+
+.uploadContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-07;
+  padding: $spacing-09 0 $spacing-07 15%;
+}
+
+.uploadDivider {
+  border: none;
+  border-top: solid 1px var(--cds-border-subtle);
+  margin: 0;
+}
+
+.configureSummaryBox {
+  background-color: var(--cds-layer-01);
+  padding: $spacing-05;
+  animation: fadeIn 0.4s ease-in;
+}
+
+.componentSelector {
+  padding: $spacing-04 0;
+  animation: fadeIn 0.4s ease-in;
+
+  // Carbon's RadioButtonGroup legendText defaults to 14px — bump it for legibility
+  // at the scale of this page.
+  :global(.cds--label) {
+    font-size: 20px;
+    line-height: 28px;
+    margin-bottom: $spacing-04;
+  }
+
+  // Give each radio option breathing room when stacked vertically.
+  :global(.cds--radio-button-wrapper) {
+    margin-bottom: $spacing-04;
+    align-items: flex-start;
+  }
+}
+
+.radioLabel {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-02;
+}
+
+.radioLabelTitle {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--cds-text-primary);
+}
+
+.radioLabelDescription {
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--cds-text-secondary);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Review state summary strip — same background treatment as configure.
+.reviewSummaryBox {
+  background-color: var(--cds-layer-01);
+  padding: $spacing-04 $spacing-05;
+  flex-shrink: 0;
+  margin-top: $spacing-04;
+}
+
+// --- Summary strip ---
+
+.summaryStrip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: $spacing-07;
+  row-gap: $spacing-03;
+  padding: $spacing-04 0;
+  flex-shrink: 0;
+}
+
+.summaryStat {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-02;
+}
+
+.summaryStatLabel {
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--cds-text-secondary);
+}
+
+// Label that uses DefinitionTooltip. The wrapper applies uppercase styling so it
+// matches plain .summaryStatLabel visually. The trigger button inside Carbon's
+// DefinitionTooltip is reset to normal case so the tooltip content reads correctly.
+.summaryStatLabelTooltip {
+  display: block;
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 600;
+  color: var(--cds-text-secondary);
+
+  // The Carbon trigger button inherits text-transform from its parent chain.
+  // We reset it here so the label text renders uppercase via the button's own
+  // text-transform while the tooltip popover content stays sentence case.
+  :global(.cds--definition-term) {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--cds-text-secondary);
+    border-bottom-color: var(--cds-border-subtle);
+  }
+}
+
+.summaryStatValue {
+  display: flex;
+  align-items: center;
+  column-gap: $spacing-02;
+  font-size: 20px;
+  line-height: 26px;
+  font-weight: 400;
+  color: var(--cds-text-primary);
+}
+
+.summaryTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-02;
+  padding-top: $spacing-01;
+}
+
+.warningIcon {
+  color: var(--cds-support-warning);
+  flex-shrink: 0;
+}
+
+// --- Over-limit banner ---
+
+.overLimitBanner {
+  display: flex;
+  align-items: center;
+  column-gap: $spacing-03;
+  padding: $spacing-03 $spacing-04;
+  background-color: var(--cds-notification-background-warning);
+  border-left: 3px solid var(--cds-support-warning);
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--cds-text-primary);
+  flex-shrink: 0;
+  margin-top: $spacing-03;
+}
+
+// --- Main content layouts ---
+
+// Narrow/medium: statistics grid stacked above table, page itself scrolls.
+// No overflow:hidden — the content must grow freely so .page can scroll it.
+.contentNarrow {
+  display: flex;
+  flex-direction: column;
+  margin-top: $spacing-05;
+  row-gap: $spacing-06;
+  padding-bottom: $spacing-07;
+}
+
+// Wide (>=1312px): 70% table left, 30% sticky statistics right.
+// flex:1 + overflow:hidden keeps both panels inside the viewport height;
+// each panel manages its own internal scroll.
+.contentWide {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  overflow: hidden;
+  margin-top: $spacing-05;
+  column-gap: $spacing-06;
+}
+
+// --- Section titles ---
+
+.sectionTitle {
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 600;
+  color: var(--cds-text-secondary);
+  margin-bottom: $spacing-03;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+// --- Table section ---
+
+.tableSection {
+  display: flex;
+  flex-direction: column;
+  // flex:1 fills remaining height in the wide layout where the parent is a
+  // fixed-height flex row. In the narrow scrolling layout it has no effect.
+  flex: 1;
+  min-width: 0;
+}
+
+.tableSectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-03;
+}
+
+.tableToolbarExtra {
+  display: flex;
+  justify-content: flex-end;
+
+  // Constrain the dropdown width so it does not span the full table.
+  > div {
+    width: 280px;
+  }
+}
+
+// --- Statistics panel ---
+
+// Narrow: single horizontal row of donuts.
+.statisticsPanel {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-04;
+}
+
+.statisticsCaption {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--cds-text-secondary);
+}
+
+// Each donut is wrapped in a block that includes a title above it.
+.donutBlock {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-03;
+}
+
+.donutTitle {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--cds-text-secondary);
+}
+
+// Thin rule between donut blocks — less visually heavy than a section border.
+.donutDivider {
+  border: none;
+  border-top: 1px solid var(--cds-border-subtle);
+  margin: 0;
+}
+
+// Wide: donuts stacked vertically in the right panel.
+.donutsColumn {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-05;
+  align-items: stretch;
+
+  // Each donut needs an explicit height in column mode — Carbon's chart
+  // does not infer height from a percentage-width container.
+  .donutWrapper {
+    width: 100%;
+    height: 240px;
+  }
+}
+
+// Medium: CSS grid above the task table. auto-fill ensures each cell is at
+// least 380px wide — never squeezes a donut below a usable size.
+// Dividers are omitted in this layout; grid gaps provide visual separation.
+.donutsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: $spacing-06;
+
+  .donutWrapper {
+    height: 260px;
+  }
+
+  // Hide the hr dividers that separate donut blocks in column layout.
+  hr {
+    display: none;
+  }
+}
+
+// Fallback for donutWrapper outside a layout container.
+.donutWrapper {
+  width: 100%;
+}
+
+// Sticky container for the right panel on wide screens.
+.statisticsSticky {
+  width: 30%;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+  padding-left: $spacing-06;
+  padding-bottom: $spacing-10;
+  border-left: 1px solid var(--cds-border-strong);
+}
+
+// --- Task overlay (viewer) ---
+
+.taskOverlay {
+  position: absolute;
+  inset: 100% 0 0;
+  z-index: 10;
+  background-color: var(--cds-background);
+}
+
+.active {
+  top: $spacing-09;
+  transition: top 0.5s ease-in;
+}

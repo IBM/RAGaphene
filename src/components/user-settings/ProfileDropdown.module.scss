@@ -1,0 +1,121 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+@use '@carbon/colors' as *;
+
+.profileDropdown {
+  display: flex;
+  width: 300px;
+  flex-direction: column;
+  align-items: flex-end;
+  position: fixed;
+  right: 0;
+  z-index: 15;
+}
+
+.popover {
+  display: none;
+  position: absolute;
+  width: 100%;
+  top: 36px;
+  padding-bottom: 0;
+  background-color: var(--cds-background-inverse);
+  color: var(--cds-text-inverse);
+
+  p {
+    font-size: 14px;
+    line-height: 18px;
+  }
+}
+
+.popover.open {
+  display: block;
+  animation: fade-in 0.5s;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.userProfile {
+  padding: $spacing-05;
+  display: flex;
+  align-items: center;
+}
+
+.userInfo {
+  margin-left: $spacing-03;
+  flex: 1 1 0;
+  min-width: 0; // allows text-overflow to work inside a flex child
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.userName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.userEmail {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 0.7;
+}
+
+.userAvatar {
+  flex-shrink: 0; // prevent flexbox from squashing the circle
+  width: $spacing-09;
+  height: $spacing-09;
+  border: none;
+  border-radius: 50%;
+  overflow: hidden; // clip the img to the circle boundary
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.placeholderAvatar {
+  flex-shrink: 0; // prevent flexbox from squashing the circle
+  width: $spacing-09;
+  height: $spacing-09;
+  background-color: var(--cds-background-active);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userActions {
+  display: flex;
+  flex-direction: column;
+}
+
+.userActionItem {
+  display: flex;
+  width: 100%;
+  height: $spacing-09;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 $spacing-05;
+}
+
+.userActionItem:last-of-type {
+  border-top: 1px solid var(--cds-border-strong-01);
+}

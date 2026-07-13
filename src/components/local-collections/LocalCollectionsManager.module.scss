@@ -1,0 +1,55 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '../../styles/index' as common;
+@use '@carbon/react/scss/spacing' as *;
+@use '@carbon/react/scss/type' as *;
+
+.collectionsHeader {
+  @include type-style('label-01');
+  color: var(--cds-text-secondary);
+  margin-bottom: $spacing-03;
+}
+
+.collectionGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-03;
+  margin-bottom: $spacing-04;
+}
+
+.collectionCard {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-01;
+  padding: $spacing-03;
+  background: var(--cds-layer-01);
+  border: 1px solid var(--cds-border-subtle-01);
+}
+
+.collectionCardName {
+  @include type-style('label-02');
+  font-weight: 600;
+  word-break: break-all;
+}
+
+.collectionCardMeta {
+  @include type-style('label-01');
+  color: var(--cds-text-helper);
+}
+
+// State B empty state
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-04;
+  max-width: 50%;
+}
+
+.emptyHint {
+  @include type-style('label-01');
+  color: var(--cds-text-helper);
+}

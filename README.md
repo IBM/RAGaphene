@@ -1,78 +1,196 @@
-<!-- This should be the location of the title of the repository, normally the short name -->
-# repo-template
+# RAGaphene
 
-<!-- Build Status, is a great thing to have at the top of your repository, it shows that you take your CI/CD as first class citizens -->
-<!-- [![Build Status](https://travis-ci.org/jjasghar/ibm-cloud-cli.svg?branch=master)](https://travis-ci.org/jjasghar/ibm-cloud-cli) -->
+A web application for building, evaluating, and analyzing Retrieval-Augmented Generation (RAG) systems, covering the full generative AI development lifecycle: **Data → Evaluate → Analyze**.
 
-<!-- Not always needed, but a scope helps the user understand in a short sentance like below, why this repo exists -->
-## Scope
+![RAG application development lifecycle](docs/images/lifecycle.png)
 
-The purpose of this project is to provide a template for new open source repositories.
+1. **Data** — Create and curate multi-turn conversations with SME annotation
+2. **Evaluate** — Run RAG pipelines and LLM judges against curated datasets
+3. **Analyze** — Export to [InspectorRAGet](https://github.com/IBM/InspectorRAGet) for performance benchmarking
 
-<!-- A more detailed Usage or detailed explaination of the repository here -->
-## Usage
+## 🚀 Quick start
 
-This repository contains some example best practices for open source repositories:
+You need [Node.js](https://nodejs.org) ≥ 22.14.0. For a fully local demo, also install [Ollama](https://ollama.com) and pull a model (for example `ollama pull llama3.2`).
 
-* [LICENSE](LICENSE)
-* [README.md](README.md)
-* [CONTRIBUTING.md](CONTRIBUTING.md)
-* [MAINTAINERS.md](MAINTAINERS.md)
-* [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
-<!-- A Changelog allows you to track major changes and things that happen, https://github.com/github-changelog-generator/github-changelog-generator can help automate the process -->
-* [CHANGELOG.md](CHANGELOG.md)
-
-> These are optional
-
-<!-- The following are OPTIONAL, but strongly suggested to have in your repository. -->
-* [dco.yml](.github/dco.yml) - This enables DCO bot for you, please take a look https://github.com/probot/dco for more details.
-* [travis.yml](.travis.yml) - This is a example `.travis.yml`, please take a look https://docs.travis-ci.com/user/tutorial/ for more details.
-
-These may be copied into a new or existing project to make it easier for developers not on a project team to collaborate.
-
-<!-- A notes section is useful for anything that isn't covered in the Usage or Scope. Like what we have below. -->
-## Notes
-
-**NOTE: While this boilerplate project uses the Apache 2.0 license, when
-establishing a new repo using this template, please use the
-license that was approved for your project.**
-
-**NOTE: This repository has been configured with the [DCO bot](https://github.com/probot/dco).
-When you set up a new repository that uses the Apache license, you should
-use the DCO to manage contributions. The DCO bot will help enforce that.
-Please contact one of the IBM GH Org stewards.**
-
-<!-- Questions can be useful but optional, this gives you a place to say, "This is how to contact this project maintainers or create PRs -->
-If you have any questions or issues you can create a new [issue here][issues].
-
-Pull requests are very welcome! Make sure your patches are well tested.
-Ideally create a topic branch for every separate change you make. For
-example:
-
-1. Fork the repo
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
-
-## License
-
-All source files must include a Copyright and License header. The SPDX license header is 
-preferred because it can be easily scanned.
-
-If you would like to see the detailed LICENSE click [here](LICENSE).
-
-```text
-#
-# Copyright IBM Corp. {Year project was created} - {Current Year}
-# SPDX-License-Identifier: Apache-2.0
-#
+```shell
+git clone https://github.com/IBM/RAGaphene && cd RAGaphene
+npm install
+npm run setup          # writes .env.local with a generated secret + demo login
+npm run dev            # starts on http://localhost:3000
 ```
-## Authors
 
-Optionally, you may include a list of authors, though this is redundant with the built-in
-GitHub list of contributors.
+Then open [http://localhost:3000](http://localhost:3000) and:
 
-- Author: New OpenSource IBMer <new-opensource-ibmer@ibm.com>
+1. Log in with the sample credentials (**username** `user`, **password** `RAGapheneUser`).
+2. Go to **Data → Create**.
+3. Under the retriever, pick **Local Documents** and upload a `.txt`, `.md`, or `.pdf` file.
+4. Under the generator, pick **Ollama** (local, no key) — or paste an OpenAI/Anthropic API key.
+5. Start a conversation grounded in your document.
 
-[issues]: https://github.com/IBM/repo-template/issues/new
+No TLS, no external accounts, and no source edits are required for this path.
+
+## ✨ Features
+
+### Data
+
+**Create**
+- Multi-turn conversations with RAG (retriever + generator)
+- Fix model responses to continue with a corrected history
+- Rate retrieved passages and model responses
+- Free-text passage search within a collection
+- Add per-turn enrichments (question type, tonality, etc.)
+- Export conversations to JSON
+
+**Review**
+- Accept/reject conversations created via the workbench
+- Add inline comments on turns and passages
+
+### Experiment
+- Convert conversations to a next-response-prediction dataset
+- Configure and run different RAG pipelines
+- Run LLM judge evaluations and collect metrics
+
+> [!NOTE]
+> The Experiment stage runs a Python evaluator. It requires a Python environment
+> with the dependencies in `scripts/requirements.txt`. See
+> [Experiment setup](#experiment-python-setup) below. The Data stage has no
+> Python dependency.
+
+### Analyze
+- Export experiment results in InspectorRAGet format with one click
+
+## 🏛️ Architecture
+
+**Tech stack:** Next.js 16 (App Router) · React 18 · IBM Carbon Design System · NextAuth.js · TypeScript 5.9 · Node.js ≥22
+
+**Supported LLMs:** Ollama · OpenAI · Anthropic · Gemini · WatsonX.AI
+
+**Data sources:** Local Documents (built-in) · Elasticsearch (ELSER) · MongoDB
+
+The server side uses a connector/adapter pattern: all LLM and retriever providers implement a common interface, making it straightforward to add new ones.
+
+See [docs/architecture.md](docs/architecture.md) for full technical details.
+
+## 🔧 Configuration
+
+System configuration lives in `src/config/system.ts`. It defines:
+- **authenticator** — how users log in (see [Authentication](#authentication))
+- **retrievers[]** — Local Documents, Elasticsearch, MongoDB connectors
+- **generators[]** — LLM connectors with prompt templates, parameters, and supported modes
+- **plugins[]** — enrichment values, GitHub issue reporter, etc.
+
+Connectors with `credentials.provider: "server"` read API keys from environment
+variables. Those with `"client"` prompt the user to supply a key in the browser
+(stored encrypted in the NextAuth session cookie, never visible in the Network tab).
+
+### Environment variables
+
+`npm run setup` creates `.env.local` for you. To configure by hand, copy
+`.env.example` to `.env.local` and edit it. The variables that matter for the
+default local path are `NEXTAUTH_SECRET`, `AUTH_PROVIDER`, `AUTH_USERNAME`, and
+`AUTH_PASSWORD`; everything else is optional.
+
+## 🔐 Authentication
+
+`AUTH_PROVIDER` selects how users log in:
+
+| Value | Description |
+|---|---|
+| `credentials` (default) | Username/password. Set `AUTH_USERNAME` / `AUTH_PASSWORD`. No external identity provider. |
+| `github` | GitHub OAuth. See below. |
+| `oauth` | Generic OIDC. Point `AUTH_ISSUER` at any compliant provider; endpoints are auto-discovered. |
+
+### GitHub OAuth
+
+1. Create an OAuth app at [github.com/settings/developers](https://github.com/settings/developers)
+   with callback URL `https://localhost:3000/api/auth/callback/github`.
+2. Set in `.env.local`:
+   ```
+   AUTH_PROVIDER=github
+   AUTH_CLIENT_ID=<client-id>
+   AUTH_CLIENT_SECRET=<client-secret>
+   NEXTAUTH_URL=https://localhost:3000
+   ```
+3. Run over HTTPS (OAuth redirects require it): `npm run dev:https`
+   (see [HTTPS for local OAuth](#https-for-local-oauth)).
+
+### Generic OIDC
+
+Set `AUTH_PROVIDER=oauth`, `AUTH_ISSUER=<issuer-base-url>`, and
+`AUTH_CLIENT_ID` / `AUTH_CLIENT_SECRET`. The provider's
+`.well-known/openid-configuration` supplies every endpoint. Use
+`AUTH_WELL_KNOWN` directly if the discovery URL is non-standard, and
+`AUTH_PROVIDER_NAME` to set the sign-in button label.
+
+## 🧩 Advanced setup
+
+### Production / hosted LLMs and retrievers
+
+Beyond the local defaults, RAGaphene can connect to hosted services. Set the
+relevant environment variables in `.env.local` (see `.env.example` for the full
+list):
+
+- **OpenAI / Anthropic / Gemini** — set the corresponding `*_API_KEY`, or leave
+  unset to have users paste a key in the browser.
+- **WatsonX.AI** — set `WATSONX_API_KEY` and `WATSONX_PROJECT_ID`.
+- **Elasticsearch** — set `ES_ENDPOINT` and either `ES_API_KEY` or
+  `ES_USERNAME` / `ES_PASSWORD`.
+
+### <a id="experiment-python-setup"></a>Experiment (Python) setup
+
+The Experiment stage shells out to `scripts/evaluator.py`. Create a virtual
+environment outside the repo root (a venv symlinked inside the project directory
+can break the build), install the dependencies, and point `.env.local` at it:
+
+```shell
+python3 -m venv ~/ragaphene-venv
+~/ragaphene-venv/bin/pip install -r scripts/requirements.txt
+```
+
+```
+PYTHON_ENVIRONMENT_PATH=/Users/you/ragaphene-venv
+```
+
+If the evaluator's environment is missing, the Experiment stage returns a clear
+error rather than failing silently.
+
+### <a id="https-for-local-oauth"></a>HTTPS for local OAuth
+
+OAuth providers redirect back over HTTPS, so local OAuth needs a TLS proxy.
+Generate a locally-trusted certificate with [mkcert](https://github.com/FiloSottile/mkcert):
+
+```shell
+mkdir keys && cd keys && mkcert localhost    # brew install mkcert first on macOS
+```
+
+Then set `NEXTAUTH_URL=https://localhost:3000` and run:
+
+```shell
+npm run dev:https      # HTTPS proxy on :3000 → Next.js on :3001
+```
+
+### Issue reporting
+
+The in-app "Report conversation" feature can open a GitHub issue. Set
+`GITHUB_TOKEN` and `GITHUB_REPO` (as `owner/name`); set `GITHUB_API_URL` for a
+GitHub Enterprise instance. Set `NEXT_PUBLIC_GITHUB_REPO_URL` so the client can
+link to the repo's issues page.
+
+## 🏗️ Build & test
+
+```shell
+npm run build             # production build
+npm run start             # serve the production build on :3000
+npm test                  # run all tests (Jest)
+npm run test:coverage     # with coverage report
+```
+
+## 📄 License
+
+Copyright IBM Corp. 2023 - 2026
+
+Distributed under the Apache-2.0 License. See [LICENSE](LICENSE).
+
+## 🥁 Acknowledgements
+
+Thanks to the [Carbon Design System](https://github.com/carbon-design-system/carbon) team.

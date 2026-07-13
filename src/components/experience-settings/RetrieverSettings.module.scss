@@ -1,0 +1,65 @@
+/**
+ * Copyright IBM Corp. 2023 - 2026
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@use '@carbon/react/scss/spacing' as *;
+@use '@carbon/colors' as *;
+
+.parametersContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-03;
+}
+
+.title {
+  margin: $spacing-03 0;
+}
+
+.warningContainer {
+  display: flex;
+  column-gap: $spacing-02;
+  align-items: center;
+  color: var(--cds-support-warning);
+}
+
+.templateInfo {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-02;
+}
+
+.templateInfo li {
+  color: var(--cds-text-helper);
+}
+
+.querySyntaxContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.querySyntaxHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-02;
+}
+
+.querySyntaxLabel {
+  font-size: var(--cds-label-01-font-size);
+  font-weight: var(--cds-label-01-font-weight);
+  line-height: var(--cds-label-01-line-height);
+  letter-spacing: var(--cds-label-01-letter-spacing);
+  color: var(--cds-text-secondary);
+}
+
+.formatButton {
+  min-height: unset;
+  padding-inline: $spacing-03;
+}
+
+.querySyntaxTextarea textarea {
+  font-family: 'IBM Plex Mono', 'Courier New', monospace;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
