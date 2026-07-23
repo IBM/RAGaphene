@@ -29,6 +29,7 @@ interface UploadModalProps {
     collection: Collection,
     trimmed: IngestResult['trimmed'],
     evicted: IngestResult['evicted'],
+    skipped: IngestResult['skipped'],
   ) => void;
   // Name of the oldest collection that will be auto-removed to make room.
   // null when the user is not at the collection limit.
@@ -100,7 +101,12 @@ export default function UploadModal({
 
       const result: IngestResult = await res.json();
       setFiles([]);
-      onIngested(result.collection, result.trimmed, result.evicted);
+      onIngested(
+        result.collection,
+        result.trimmed,
+        result.evicted,
+        result.skipped,
+      );
     } catch (err: any) {
       setError(err.message ?? 'Indexing failed. Please try again.');
     } finally {

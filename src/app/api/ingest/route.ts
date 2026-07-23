@@ -10,7 +10,10 @@ import {
   AuthenticationError,
   ValidationError,
 } from '@/src/app/api/middleware/errorHandler';
-import { ingestDocuments } from '@/src/common/utilities/localIndex';
+import {
+  ingestDocuments,
+  IngestError,
+} from '@/src/common/utilities/localIndex';
 import { collectionsCache } from '@/src/common/utilities/connectorCache';
 import { SUPPORTED_EXTENSIONS } from '@/src/app/api/schemas/ingest.schema';
 
@@ -56,7 +59,17 @@ export const POST = withErrorHandler(async (req: Request) => {
     })),
   );
 
-  const result = await ingestDocuments(username, fileData);
+  let result;
+  try {
+    result = await ingestDocuments(username, fileData);
+  } catch (error) {
+    // No file yielded indexable text — a client input problem, not a server
+    // fault. Translate to a 400 so the caller sees a clear reason per file.
+    if (error instanceof IngestError) {
+      throw new ValidationError(error.message, { skipped: error.skipped });
+    }
+    throw error;
+  }
 
   // Evict cached collection list so the next GET reflects the new collection.
   collectionsCache.invalidateByPrefix('collections::Local Documents::');

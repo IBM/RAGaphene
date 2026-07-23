@@ -54,6 +54,7 @@ export default function LocalCollectionsManager({ onChange }: Props) {
   const [loadingCollections, setLoadingCollections] = useState(true);
   const [uploadOpen, setUploadOpen] = useState(false);
   const [trimWarnings, setTrimWarnings] = useState<TrimRecord[]>([]);
+  const [skipWarnings, setSkipWarnings] = useState<IngestResult['skipped']>([]);
 
   useEffect(() => {
     async function load() {
@@ -79,6 +80,7 @@ export default function LocalCollectionsManager({ onChange }: Props) {
     collection: Collection,
     trimmed: IngestResult['trimmed'],
     evicted: IngestResult['evicted'],
+    skipped: IngestResult['skipped'],
   ) {
     // Remove the evicted collection from the list if present, then prepend the new one.
     const updated = [
@@ -89,6 +91,7 @@ export default function LocalCollectionsManager({ onChange }: Props) {
     onChange(updated.length === 0);
     setUploadOpen(false);
     if (trimmed.length) setTrimWarnings(trimmed);
+    if (skipped.length) setSkipWarnings(skipped);
   }
 
   const isStateB = !loadingCollections && collections.length === 0;
@@ -123,6 +126,22 @@ export default function LocalCollectionsManager({ onChange }: Props) {
             right: '1rem',
             zIndex: 9999,
           }}
+        />
+      ) : null}
+
+      {skipWarnings.length > 0 ? (
+        <ToastNotification
+          kind="warning"
+          title="Some files were skipped"
+          subtitle={skipWarnings
+            .map(
+              (s) =>
+                `${s.source} — ${s.reason === 'empty' ? 'no extractable text (scanned or image-only PDF)' : 'unreadable (encrypted or malformed)'}`,
+            )
+            .join('\n')}
+          caption="The remaining files were indexed. For scanned PDFs, upload a text-based version."
+          timeout={12000}
+          onClose={() => setSkipWarnings([])}
         />
       ) : null}
 

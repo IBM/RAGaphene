@@ -55,6 +55,7 @@ import {
   retrieve,
   deleteCollection,
   collectionCount,
+  IngestError,
 } from '@/src/common/utilities/localIndex';
 
 // ---------------------------------------------------------------------------
@@ -208,6 +209,101 @@ describe('ingestDocuments', () => {
     );
     expect(results.length).toBeGreaterThan(0);
     expect(results[0].text).toContain('mock');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// ingestDocuments — PDF resilience
+// ---------------------------------------------------------------------------
+
+describe('ingestDocuments — PDF resilience', () => {
+  afterEach(() => {
+    // Restore the default happy-path mock for subsequent tests.
+    mockPdfParse.mockReset();
+    mockPdfParse.mockResolvedValue({
+      text: 'mock pdf paragraph one content here\n\nmock paragraph two data here',
+    });
+  });
+
+  it('skips an unreadable PDF but still indexes the readable files', async () => {
+    const user = nextUser();
+    // First file (the PDF) throws; the .txt that follows must still be indexed.
+    mockPdfParse.mockRejectedValueOnce(new Error('encrypted document'));
+
+    const files = [
+      { name: 'broken.pdf', buffer: Buffer.from('%PDF-1.4') },
+      makeTextFile('good.txt', 'perfectly readable content here now'),
+    ];
+    const result = await ingestDocuments(user, files);
+
+    expect(result.skipped).toHaveLength(1);
+    expect(result.skipped[0]).toMatchObject({
+      source: 'broken.pdf',
+      reason: 'unreadable',
+    });
+    // docCount reflects only the successfully-parsed files.
+    const hash = userHash(user);
+    const meta = JSON.parse(
+      fs.readFileSync(
+        path.join(tmpDir, hash, result.collection.uuid!, 'meta.json'),
+        'utf8',
+      ),
+    );
+    expect(meta.docCount).toBe(1);
+  });
+
+  it('skips a PDF with no extractable text (scanned / image-only)', async () => {
+    const user = nextUser();
+    // Image-only PDF: parses without error but yields only whitespace.
+    mockPdfParse.mockResolvedValueOnce({ text: '   \n\n  ' });
+
+    const files = [
+      { name: 'scanned.pdf', buffer: Buffer.from('%PDF-1.4') },
+      makeTextFile('notes.txt', 'accompanying readable text content'),
+    ];
+    const result = await ingestDocuments(user, files);
+
+    expect(result.skipped).toEqual([
+      expect.objectContaining({ source: 'scanned.pdf', reason: 'empty' }),
+    ]);
+  });
+
+  it('throws IngestError when every file fails to parse', async () => {
+    const user = nextUser();
+    mockPdfParse.mockRejectedValueOnce(new Error('encrypted'));
+    mockPdfParse.mockResolvedValueOnce({ text: '' });
+
+    const files = [
+      { name: 'a.pdf', buffer: Buffer.from('%PDF-1.4') },
+      { name: 'b.pdf', buffer: Buffer.from('%PDF-1.4') },
+    ];
+
+    await expect(ingestDocuments(user, files)).rejects.toBeInstanceOf(
+      IngestError,
+    );
+    // Nothing was written for this user.
+    expect(collectionCount(user)).toBe(0);
+  });
+
+  it('does not evict an existing collection when the whole batch is unparseable', async () => {
+    const user = nextUser();
+    // Seed one good collection first.
+    await ingestDocuments(user, [
+      makeTextFile('keep.txt', 'this collection must survive a failed upload'),
+    ]);
+    const before = collectionCount(user);
+
+    // Now attempt a batch that entirely fails to parse.
+    mockPdfParse.mockRejectedValueOnce(new Error('malformed'));
+    await expect(
+      ingestDocuments(user, [
+        { name: 'bad.pdf', buffer: Buffer.from('%PDF-1.4') },
+      ]),
+    ).rejects.toBeInstanceOf(IngestError);
+
+    // The pre-existing collection is untouched — eviction happens only after
+    // the parse guard passes.
+    expect(collectionCount(user)).toBe(before);
   });
 });
 

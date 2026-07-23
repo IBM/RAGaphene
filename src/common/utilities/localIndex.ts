@@ -46,15 +46,42 @@ interface TrimRecord {
   percent: number;
 }
 
+export interface SkippedFile {
+  source: string;
+  // 'unreadable' — pdf-parse threw (encrypted, password-protected, or malformed).
+  // 'empty'      — parsed without error but yielded no extractable text
+  //                (scanned / image-only PDF with no text layer — would need OCR).
+  reason: 'unreadable' | 'empty';
+  detail?: string;
+}
+
 export interface IngestResult {
   collection: Collection;
   trimmed: TrimRecord[];
   evicted: string | null; // name of the collection that was auto-removed to make room
+  skipped: SkippedFile[]; // files that could not be indexed; the rest still ingest
 }
 
 export interface FileInput {
   name: string;
   buffer: Buffer;
+}
+
+/**
+ * Thrown by ingestDocuments when the upload cannot produce a collection
+ * (currently: no file yielded extractable text). Carries the per-file
+ * skip reasons. The route translates this into a 400 ValidationError.
+ * Defined here (rather than importing route middleware) to keep this
+ * module free of HTTP concerns.
+ */
+export class IngestError extends Error {
+  constructor(
+    message: string,
+    public skipped: SkippedFile[],
+  ) {
+    super(message);
+    this.name = 'IngestError';
+  }
 }
 
 // --- In-process MiniSearch cache ---
@@ -189,12 +216,20 @@ function applyBudget(docChunks: { source: string; chunks: Chunk[] }[]): {
   return { chunks: kept, trimmed };
 }
 
+// Shared MiniSearch options. These MUST be identical between buildMiniSearch()
+// (ingest) and the loadJSON() call in retrieve() (disk reload). searchOptions
+// are not serialised into the index JSON, so a reload that omits them silently
+// disables prefix/fuzzy matching — exact-token queries still hit, but partial
+// words and typos return nothing, making search appear to work intermittently
+// (in-process cache has them, cold-loaded disk copies did not).
+const MINISEARCH_OPTIONS = {
+  fields: ['text', 'source'],
+  storeFields: ['text', 'source', 'chunkIndex'],
+  searchOptions: { boost: { text: 2 }, prefix: true, fuzzy: 0.1 },
+};
+
 function buildMiniSearch(chunks: Chunk[]): MiniSearch {
-  const ms = new MiniSearch({
-    fields: ['text', 'source'],
-    storeFields: ['text', 'source', 'chunkIndex'],
-    searchOptions: { boost: { text: 2 }, prefix: true, fuzzy: 0.1 },
-  });
+  const ms = new MiniSearch(MINISEARCH_OPTIONS);
   ms.addAll(chunks);
   return ms;
 }
@@ -274,22 +309,60 @@ export async function ingestDocuments(
   username: string,
   files: FileInput[],
 ): Promise<IngestResult> {
-  // Auto-evict the oldest collection when the user is at the limit.
-  const evicted =
-    collectionCount(username) >= MAX_COLS ? evictOldest(username) : null;
-
-  // Parse all files to plain text first.
+  // Parse all files to plain text first. A single unparseable file (encrypted,
+  // malformed, or image-only PDF) must not abort the whole batch — collect
+  // failures and continue so the remaining files still ingest.
   const parsed: { source: string; text: string }[] = [];
+  const skipped: SkippedFile[] = [];
   for (const file of files) {
     let text: string;
     if (file.name.endsWith('.pdf')) {
-      const result = await pdfParse(file.buffer);
-      text = result.text;
+      try {
+        const result = await pdfParse(file.buffer);
+        text = result.text;
+      } catch (err) {
+        skipped.push({
+          source: file.name,
+          reason: 'unreadable',
+          detail: err instanceof Error ? err.message : String(err),
+        });
+        continue;
+      }
     } else {
       text = file.buffer.toString('utf8');
     }
+
+    // A PDF with no text layer (scanned / image-only) parses without error but
+    // yields empty text. Skip it with an 'empty' reason rather than creating
+    // zero chunks — OCR would be required to extract anything.
+    if (!text.trim()) {
+      skipped.push({ source: file.name, reason: 'empty' });
+      continue;
+    }
+
     parsed.push({ source: file.name, text });
   }
+
+  // Every file failed to parse — surface a clear error rather than writing an
+  // empty collection to disk. Nothing has been evicted or written at this point.
+  if (parsed.length === 0) {
+    throw new IngestError(
+      'None of the uploaded files could be processed. ' +
+        skipped
+          .map(
+            (s) =>
+              `${s.source} (${s.reason === 'empty' ? 'no extractable text — scanned or image-only PDF' : 'unreadable — encrypted or malformed'})`,
+          )
+          .join('; '),
+      skipped,
+    );
+  }
+
+  // Only now that we have at least one indexable file do we make room. Evicting
+  // before the parse guard would delete the oldest collection even when the
+  // whole batch turns out to be unparseable, leaving the user worse off.
+  const evicted =
+    collectionCount(username) >= MAX_COLS ? evictOldest(username) : null;
 
   // Chunk each document.
   const docChunks = parsed.map((doc) => ({
@@ -312,7 +385,7 @@ export async function ingestDocuments(
   const meta: CollectionMeta = {
     uuid,
     name: uuid,
-    docCount: files.length,
+    docCount: parsed.length,
     chunkCount: chunks.length,
     createdAt: new Date().toISOString(),
     trimmed,
@@ -339,6 +412,7 @@ export async function ingestDocuments(
     collection: { name: uuid, uuid, size: chunks.length },
     trimmed,
     evicted,
+    skipped,
   };
 }
 
@@ -376,10 +450,9 @@ export async function retrieve(
       };
     }
     const raw = fs.readFileSync(indexPath, 'utf8');
-    ms = MiniSearch.loadJSON(raw, {
-      fields: ['text', 'source'],
-      storeFields: ['text', 'source', 'chunkIndex'],
-    });
+    // Pass the same options used at build time — searchOptions (prefix/fuzzy)
+    // are not persisted in the index JSON and must be re-supplied here.
+    ms = MiniSearch.loadJSON(raw, MINISEARCH_OPTIONS);
     indexCache.set(uuid, ms);
   }
 
