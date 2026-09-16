@@ -13,8 +13,6 @@ const {
   errors: ElasticErrors,
 } = require('@elastic/elasticsearch');
 const { MongoClient } = require('mongodb');
-import { CloudantV1 } from '@ibm-cloud/cloudant';
-import { BasicAuthenticator } from 'ibm-cloud-sdk-core';
 
 /**
  * Abstract Class ActiveRetriever.
@@ -329,89 +327,6 @@ class MongoDB extends ActiveRetriever {
 }
 
 /**
- * Cloudant ActiveRetriever
- *
- * @class Cloudant
- * @extends {ActiveRetriever}
- */
-class Cloudant extends ActiveRetriever {
-  //class variables
-  private static _instance;
-  connection;
-
-  constructor(
-    endpoint: string,
-    credentials: {
-      username: string;
-      password: string;
-    },
-  ) {
-    // Step 1: Return existing, if endpoint is same
-    if (Cloudant._instance && Cloudant._instance.connection) {
-      return Cloudant._instance;
-    } else {
-      // Step 2: Initialize parent
-      super();
-
-      // Step 3: Establish connection, if none existing
-      // Step 3.a: Setup authenticator
-      const authenticator = new BasicAuthenticator({
-        username: credentials.username,
-        password: credentials.password,
-      });
-
-      // Step 3.b.: Create connection
-      this.connection = new CloudantV1({
-        authenticator: authenticator,
-      });
-
-      // Step 3.c: Set URL
-      this.connection.setServiceUrl(endpoint);
-
-      // Step 4: Set instance
-      Cloudant._instance = this;
-    }
-  }
-
-  /**
-   * Fetch collections
-   * @returns
-   */
-  async getCollections(): Promise<Collection[]> {
-    const getAllDbsResponse = await this.connection.getAllDbs();
-
-    const databaseInfos = await this.connection.postDbsInfo({
-      keys: getAllDbsResponse.result,
-    });
-
-    return databaseInfos.result
-      .map((entry) => {
-        return { name: entry.info.dbName, size: entry.info.docCount };
-      })
-      .toSorted((a, b) => a.name.localeCompare(b.name));
-  }
-
-  /**
-   * Fetch documents matching query from the given collection
-   * @param collection to search against
-   * @param query
-   * @param count number of documents to return
-   * @param projection_template template instructing document's text field construction
-   * @param display_template template instructing document's rendered view construction
-   * @returns
-   */
-  async retrieve(
-    collection: string,
-    query: {},
-    count: number,
-    projection_template: string,
-    display_template: string,
-  ): Promise<Document[]> {
-    throw new Error("Method 'retrieve()' must be implemented.");
-  }
-}
-
-/**
  * MongoDB ActiveRetriever
  *
  * @class MongoDB
@@ -463,9 +378,6 @@ export function getRetriever(
   } else if (name === 'MongoDB') {
     //@ts-ignore
     return new MongoDB(endpoint, credentials);
-  } else if (name === 'Cloudant') {
-    //@ts-ignore
-    return new Cloudant(endpoint, credentials);
   } else if (name === 'Local Documents') {
     // endpoint carries session.user.username for per-user index isolation.
     return new Local(endpoint);

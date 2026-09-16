@@ -142,7 +142,6 @@ export default function Create() {
               retriever={retriever}
               generator={selectedGenerator}
               plugins={configuration.plugins}
-              store={configuration.store}
               className={classes.conversationPanel}
             />
             <SidePanel

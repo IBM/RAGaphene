@@ -10,7 +10,7 @@ import { useState, useMemo } from 'react';
 import cx from 'classnames';
 
 import { Loading } from '@carbon/react';
-import { Restart, Undo, Export, Debug, Save } from '@carbon/icons-react';
+import { Restart, Undo, Export, Debug } from '@carbon/icons-react';
 
 import {
   User,
@@ -18,7 +18,6 @@ import {
   Message,
   ActiveRetriever,
   Plugin,
-  Connector,
 } from '@/types/custom';
 import { collectEnrichments } from '@/src/common/utilities/enrichments';
 import {
@@ -34,7 +33,6 @@ import RestartConversation from '@/src/components/creator/RestartConversation';
 import UndoTurn from '@/src/components/creator/UndoTurn';
 import ExportConversation from '@/src/components/creator/ExportConversation';
 import ReportConversation from '@/src/components/creator/ReportConversation';
-import SaveConversation from '@/src/components/creator/SaveConversation';
 import { Chat } from '@/src/components/chat/Chat';
 import Hints from '@/src/components/hints/Hints';
 
@@ -53,7 +51,6 @@ interface Props {
   /** Optional validator run before a user message is accepted. Receives the raw text; returns a [isValid, warnings[]] tuple. */
   validateMessage?: (text: string) => [boolean, string[]];
   plugins?: Plugin[];
-  store?: Connector;
 }
 
 // ===================================================================================
@@ -68,7 +65,6 @@ export default function CustomRAGConversationPanel({
   className,
   validateMessage,
   plugins,
-  store,
 }: Props) {
   // Step 1: Initialize state and necessary variables
   const [loading, setLoading] = useState(false);
@@ -79,8 +75,6 @@ export default function CustomRAGConversationPanel({
   const [exportConversationModalOpen, setExportConversationModalOpen] =
     useState(false);
   const [reportConversationModalOpen, setReportConversationModalOpen] =
-    useState(false);
-  const [saveConversationModalOpen, setSaveConversationModalOpen] =
     useState(false);
 
   // Step 2: Run effects
@@ -161,18 +155,6 @@ export default function CustomRAGConversationPanel({
             }}
           />
         ) : null}
-        {retriever && generator && store ? (
-          <SaveConversation
-            open={saveConversationModalOpen}
-            user={user}
-            retriever={retriever}
-            generator={generator}
-            messages={messages}
-            onClose={() => {
-              setSaveConversationModalOpen(false);
-            }}
-          />
-        ) : null}
 
         <div className={classes.toolbar}>
           <button
@@ -232,24 +214,6 @@ export default function CustomRAGConversationPanel({
             >
               <Debug />
               <span>Report</span>
-            </button>
-          ) : null}
-          {store !== undefined ? (
-            <button
-              title="Save conversation"
-              onClick={() => {
-                setSaveConversationModalOpen(true);
-              }}
-              disabled={
-                !retriever || !generator || !store || messages.length < 2
-              }
-              className={cx(
-                classes.toolbarAction,
-                messages.length < 2 ? classes.disabled : null,
-              )}
-            >
-              <Save />
-              <span>Save</span>
             </button>
           ) : null}
         </div>

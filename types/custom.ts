@@ -109,7 +109,6 @@ export interface SystemConfiguration {
   };
   retrievers: RetrieverConfig[];
   generators: GeneratorConfig[];
-  store?: Connector;
   plugins?: Plugin[];
 }
 

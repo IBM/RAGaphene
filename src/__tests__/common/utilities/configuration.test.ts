@@ -54,14 +54,14 @@ const mockConfig = {
       },
     },
     {
-      name: 'Cloudant',
-      endpoint: 'https://cloudant.example.com',
+      name: 'MongoDB',
+      endpoint: 'mongodb://localhost:27017',
       credentials: {
         provider: 'server',
-        env_username: 'CLOUDANT_USERNAME',
-        env_password: 'CLOUDANT_PASSWORD',
+        env_username: 'MONGODB_USERNAME',
+        env_password: 'MONGODB_PASSWORD',
       },
-      provider: 'cloudant',
+      provider: 'mongodb',
       settings: {
         configurable: true,
         max_count: 5,
@@ -114,14 +114,6 @@ const mockConfig = {
       },
     },
   ],
-  store: {
-    name: 'Cloudant',
-    endpoint: 'https://cloudant.example.com',
-    credentials: {
-      provider: 'server',
-      env_api_key: 'STORE_API_KEY',
-    },
-  },
 };
 
 // ---------------------------------------------------------------------------
@@ -151,13 +143,6 @@ function freshGetRetrieverConfig(name: string) {
   return mod.getRetrieverConfig(name);
 }
 
-function freshGetDatabaseConnector(config = mockConfig) {
-  jest.resetModules();
-  systemConfigMock.value = JSON.parse(JSON.stringify(config));
-  const mod = require('@/src/common/utilities/configuration');
-  return mod.getDatabaseConnector();
-}
-
 // Top-level imports of exported functions — used only for resolveCredentials()
 // tests which don't need cache isolation (they pass configs directly).
 import { resolveCredentials } from '@/src/common/utilities/configuration';
@@ -171,9 +156,6 @@ describe('resolveCredentials()', () => {
     delete process.env.WATSONX_API_KEY;
     delete process.env.WATSONX_PROJECT_ID;
     delete process.env.OPENAI_API_KEY;
-    delete process.env.CLOUDANT_USERNAME;
-    delete process.env.CLOUDANT_PASSWORD;
-    delete process.env.STORE_API_KEY;
     delete process.env.ES_ENDPOINT;
     delete process.env.ES_API_KEY;
     delete process.env.ES_USERNAME;
@@ -299,27 +281,6 @@ describe('resolveCredentials()', () => {
 
     const resolved = resolveCredentials(config as any);
     expect(resolved.generators[0].credentials.provider).toBe('client');
-  });
-
-  it('resolves store connector credentials when present', () => {
-    process.env.STORE_API_KEY = 'store-secret';
-
-    const config = {
-      authenticator: { enabled: true, provider: 'credentials' as const },
-      retrievers: [],
-      generators: [],
-      store: {
-        name: 'Cloudant',
-        credentials: {
-          provider: 'server' as const,
-          env_api_key: 'STORE_API_KEY',
-        },
-      },
-    };
-
-    const resolved = resolveCredentials(config as any);
-    expect(resolved.store!.credentials.api_key).toBe('store-secret');
-    expect(resolved.store!.credentials.env_api_key).toBeUndefined();
   });
 
   it('env_* fields are never present in resolved output', () => {
@@ -632,8 +593,8 @@ describe('resolveCredentials()', () => {
       authenticator: { enabled: true, provider: 'credentials' as const },
       retrievers: [
         {
-          name: 'Cloudant',
-          endpoint: 'https://cloudant.example.com',
+          name: 'MongoDB',
+          endpoint: 'mongodb://localhost:27017',
           credentials: { provider: 'client' as const },
           settings: {
             configurable: true,
@@ -648,9 +609,7 @@ describe('resolveCredentials()', () => {
     };
 
     const resolved = resolveCredentials(config as any);
-    expect(resolved.retrievers[0].endpoint).toBe(
-      'https://cloudant.example.com',
-    );
+    expect(resolved.retrievers[0].endpoint).toBe('mongodb://localhost:27017');
   });
 });
 
@@ -663,9 +622,6 @@ describe('load()', () => {
     delete process.env.WATSONX_API_KEY;
     delete process.env.WATSONX_PROJECT_ID;
     delete process.env.OPENAI_API_KEY;
-    delete process.env.CLOUDANT_USERNAME;
-    delete process.env.CLOUDANT_PASSWORD;
-    delete process.env.STORE_API_KEY;
     delete process.env.ES_ENDPOINT;
     delete process.env.ES_API_KEY;
     delete process.env.ES_USERNAME;
@@ -818,33 +774,11 @@ describe('getRetrieverConfig()', () => {
   });
 
   it('returns undefined for an unknown retriever name', () => {
-    expect(freshGetRetrieverConfig('MongoDB')).toBeUndefined();
+    expect(freshGetRetrieverConfig('Cloudant')).toBeUndefined();
   });
 
   it('returns the second retriever when looked up by name', () => {
-    const connector = freshGetRetrieverConfig('Cloudant');
-    expect(connector!.name).toBe('Cloudant');
-  });
-});
-
-// ---------------------------------------------------------------------------
-// getDatabaseConnector()
-// ---------------------------------------------------------------------------
-
-describe('getDatabaseConnector()', () => {
-  afterEach(() => {
-    delete process.env.STORE_API_KEY;
-  });
-
-  it('returns the store connector when configured', () => {
-    process.env.STORE_API_KEY = 'store-secret';
-    const store = freshGetDatabaseConnector();
-    expect(store).toBeDefined();
-    expect(store!.name).toBe('Cloudant');
-  });
-
-  it('returns undefined when store is not in config', () => {
-    const { store, ...noStore } = mockConfig;
-    expect(freshGetDatabaseConnector(noStore as any)).toBeUndefined();
+    const connector = freshGetRetrieverConfig('MongoDB');
+    expect(connector!.name).toBe('MongoDB');
   });
 });

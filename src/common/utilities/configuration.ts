@@ -6,7 +6,6 @@
 import 'server-only';
 import { cloneDeep } from 'lodash';
 import {
-  Connector,
   Credentials,
   GeneratorConfig,
   RetrieverConfig,
@@ -148,13 +147,6 @@ export function resolveCredentials(
     credentials: resolveConnectorCredentials(generator.credentials),
   }));
 
-  if (configuration.store) {
-    configuration.store = {
-      ...resolveConnectorEndpoint(configuration.store),
-      credentials: resolveConnectorCredentials(configuration.store.credentials),
-    };
-  }
-
   return configuration;
 }
 
@@ -249,11 +241,6 @@ export function getGeneratorConfig(name: string): GeneratorConfig | undefined {
   return configuration.generators.find(
     (generatorConnector) => generatorConnector.name === name,
   );
-}
-
-export function getDatabaseConnector(): Connector | undefined {
-  const configuration = load();
-  return configuration.store;
 }
 
 export function getAuthenticator():
