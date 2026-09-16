@@ -102,7 +102,7 @@ export function buildCacheKey(...parts: string[]): string {
  * Auth patterns in use:
  *   - api_key only         — WatsonX, OpenAI, Anthropic, Gemini
  *   - api_key OR username  — Elasticsearch (api_key preferred, username fallback)
- *   - username + password  — MongoDB, Cloudant
+ *   - username + password  — MongoDB
  *
  * For username+password connectors we hash the concatenation so that both
  * fields contribute — two users with the same username but different passwords

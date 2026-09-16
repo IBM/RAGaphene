@@ -362,14 +362,13 @@ export function validateSettings(settings: {
       // Step 1.a: Verify requested name
       if (
         retriever.name !== 'ElasticSearch' &&
-        retriever.name !== 'MongoDB' &&
-        retriever.name !== 'Cloudant'
+        retriever.name !== 'MongoDB'
       ) {
         errors.push({
           kind: `Invalid value(${retriever.name}) for 'name' field in the retriever settings.`,
           data: retriever,
           recommendation:
-            'Please set the "name" value to "ElasticSearch", "MongoDB" or "Cloudant".',
+            'Please set the "name" value to "ElasticSearch" or "MongoDB".',
         });
       }
 

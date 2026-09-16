@@ -51,7 +51,7 @@ Data  →  Evaluate  →  Analyze
 │  withErrorHandler middleware                   │
 │  Zod request validation                        │
 │  Connector / adapter layer                     │
-│    Generators (5)      Retrievers (4)          │
+│    Generators (5)      Retrievers (3)          │
 └──────┬─────────────────────────────────────────┘
        │
   ┌────┴─────────────────────────────┐
@@ -59,7 +59,7 @@ Data  →  Evaluate  →  Analyze
 LLM services                 Data sources / storage
 WatsonX.AI, OpenAI,          Local Documents,
 Anthropic, Gemini,           Elasticsearch (ELSER),
-Ollama                       MongoDB, Cloudant
+Ollama                       MongoDB
 ```
 
 ### Request lifecycle
@@ -103,7 +103,6 @@ User action → React component state update
 | Validation | Zod |
 | Elasticsearch | `@elastic/elasticsearch` |
 | MongoDB | `mongodb` |
-| Cloudant | `@ibm-cloud/cloudant` |
 | WatsonX.AI | `@ibm-generative-ai/node-sdk` |
 | OpenAI | `openai` |
 
@@ -133,7 +132,6 @@ RAGaphene/
 │   │   │   ├── collections/    # GET  — list retriever collections
 │   │   │   ├── queries/        # POST — semantic search
 │   │   │   ├── ingest/         # POST — index uploaded local documents
-│   │   │   ├── conversations/  # POST — save conversation
 │   │   │   ├── evaluations/    # GET + POST — run evaluation
 │   │   │   ├── issues/         # POST — report issue (GitHub)
 │   │   │   ├── configuration/  # GET  — sanitized system config
@@ -281,7 +279,6 @@ and typed error responses, and validates its inputs with a Zod schema.
 | `GET`  | `/api/collections` | List collections for a retriever |
 | `POST` | `/api/queries` | Semantic search against a retriever |
 | `POST` | `/api/ingest` | Index uploaded documents for the Local Documents retriever |
-| `POST` | `/api/conversations` | Persist a conversation to the data store |
 | `GET`/`POST` | `/api/evaluations` | Check status or run the evaluation pipeline |
 | `POST` | `/api/issues` | Proxy issue creation to GitHub |
 | `GET`  | `/api/configuration` | Return sanitized system config (credentials stripped) |
@@ -373,14 +370,13 @@ another.
 
 ### Retriever connectors (`src/common/connectors/retriever.ts`)
 
-An abstract base class, `ActiveRetriever`, with four concrete implementations:
+An abstract base class, `ActiveRetriever`, with three concrete implementations:
 
 | Class | Provider |
 |-------|----------|
 | `Local` | Local Documents (in-process, no external service) |
 | `Elastic` | Elasticsearch (ELSER) |
 | `MongoDB` | MongoDB |
-| `Cloudant` | IBM Cloudant |
 
 Each exposes:
 
@@ -551,7 +547,7 @@ npm run start   # serve it on :3000
 
 - API routes are stateless, so horizontal scaling is safe.
 - The NextAuth session is JWT-based (stateless); no shared session store is needed.
-- MongoDB, Cloudant, and Elasticsearch are scaled independently.
+- MongoDB and Elasticsearch are scaled independently.
 - Logs are written to `./logs/`; forward them with a log shipper in production.
 
 ---
@@ -559,7 +555,7 @@ npm run start   # serve it on :3000
 ## Testing
 
 Tests run on Jest with ts-jest. All tests run offline: external SDKs (WatsonX,
-OpenAI, Elasticsearch, MongoDB, Cloudant) are mocked at the module level, so the
+OpenAI, Elasticsearch, MongoDB) are mocked at the module level, so the
 suite makes no live API calls.
 
 ```bash

@@ -6,7 +6,7 @@
 /**
  * Tests for src/common/connectors/retriever.ts
  *
- * All SDK clients are mocked — no live Elasticsearch / MongoDB / Cloudant needed.
+ * All SDK clients are mocked — no live Elasticsearch / MongoDB needed.
  *
  * Design note: The Elastic class uses a static `_instance` singleton that reads
  * `_instance.connection.connectionPool` on every construction. To keep tests
@@ -42,24 +42,6 @@ jest.mock('mongodb', () => ({
   })),
 }));
 
-jest.mock('@ibm-cloud/cloudant', () => ({
-  CloudantV1: jest.fn().mockImplementation(() => ({
-    setServiceUrl: jest.fn(),
-    getAllDbs: jest.fn().mockResolvedValue({ result: ['db1', 'db2'] }),
-    postDbsInfo: jest.fn().mockResolvedValue({
-      result: [
-        { info: { dbName: 'db1', docCount: 42 } },
-        { info: { dbName: 'db2', docCount: 10 } },
-      ],
-    }),
-  })),
-}));
-
-jest.mock('ibm-cloud-sdk-core', () => ({
-  BasicAuthenticator: jest.fn(),
-  IamAuthenticator: jest.fn(),
-}));
-
 // ---------------------------------------------------------------------------
 // Import under test
 // ---------------------------------------------------------------------------
@@ -91,14 +73,6 @@ describe('getRetriever — factory', () => {
       username: 'user',
       password: 'pass',
       database: 'mydb',
-    });
-    expect(r).toBeDefined();
-  });
-
-  it('creates a Cloudant retriever', () => {
-    const r = getRetriever('Cloudant', 'https://cloudant.example.com', {
-      username: 'user',
-      password: 'pass',
     });
     expect(r).toBeDefined();
   });
@@ -259,33 +233,5 @@ describe('Elastic — retrieve()', () => {
     await expect(
       r.retrieve('idx', {}, 1, '${text}', '${text}'),
     ).rejects.toThrow('network failure');
-  });
-});
-
-// ---------------------------------------------------------------------------
-// Cloudant — getCollections()
-// ---------------------------------------------------------------------------
-
-describe('Cloudant — getCollections()', () => {
-  it('returns databases sorted by name', async () => {
-    const r = getRetriever('Cloudant', 'https://cloudant.example.com', {
-      username: 'u',
-      password: 'p',
-    }) as any;
-
-    r.connection = {
-      getAllDbs: jest.fn().mockResolvedValue({ result: ['zebra', 'alpha'] }),
-      postDbsInfo: jest.fn().mockResolvedValue({
-        result: [
-          { info: { dbName: 'zebra', docCount: 5 } },
-          { info: { dbName: 'alpha', docCount: 99 } },
-        ],
-      }),
-    };
-
-    const cols = await r.getCollections();
-    expect(cols).toHaveLength(2);
-    expect(cols[0].name).toBe('alpha');
-    expect(cols[1].name).toBe('zebra');
   });
 });
