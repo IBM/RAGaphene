@@ -67,7 +67,7 @@
     "lodash": "^4.17.23",
     "minisearch": "^7.2.0",
     "mongodb": "^7.1.0",
-    "next": "^16.3.3",
+    "next": "^16.4.2",
     "next-auth": "^4.24.13",
     "npm-run-all": "^4.1.5",
     "ollama": "^0.6.3",
